@@ -7,6 +7,11 @@ To install Fluidsynth run the following command: <br /> ```sudo apt-get install 
 To install Alsa, use the following command: <br />
 ```sudo apt-get install libasound2 alsa-utils alsa-oss``` <br /><br />
 Next, do ```sudo nano /boot/uEnv.txt``` to enable the LCD device tree. Add the line ```uboot_overlay_addr4=/lib/firmware/BB-LCD-ADAFRUIT-24-SPI1-00A0.dtbo```, and save and close the file. <br /><br />
+
+Next, move ```asoundrc``` to your home directory. From the ```~/MIDI-Player``` directory, run: <br />
+```cp asoundrc ~/.asoundrc```<br /><br />
+
+Finally, reboot your bone. 
 This should be all the setup you need to use our program.
 ## Hardware
 For the sound, this project used the Sabrent USB audio dongle ([Found Here!](https://www.amazon.com/dp/B002R33VWW?ref=nb_sb_ss_w_as-reorder-t1_ypp_rep_k0_1_6&amp=&crid=2I6QTTIB3SO00&amp=&sprefix=sabren))
