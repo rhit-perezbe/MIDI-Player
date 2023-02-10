@@ -20,3 +20,4 @@ Other audio dongles may be used, but are unknown if they work. <br />
 Screen - 2.4" SPI TFT Module ([Found Here!](https://www.amazon.com/HiLetgo-Display-ILI9341-Touch-240x320/dp/B07WNLNRDN)) <br />
 Illuminated Push Buttons ([Found Here!](https://www.amazon.com/Baomain-Button-Switch-Latching-Rectangular/dp/B01N1RGTPH/ref=sr_1_24?keywords=illuminated+push+buttons&qid=1675718947&sr=8-24))
 
+![](lcdspi1.png)
