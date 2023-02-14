@@ -70,7 +70,7 @@ class pymenu :
 
         #placeholder rectangle for song image
 
-        image = pygame.image.load(os.path.join('spamton.png'))
+        image = pygame.image.load(os.path.join('./images/spamt.png'))
         self.screen.blit(image, (20, 20))
 
 
