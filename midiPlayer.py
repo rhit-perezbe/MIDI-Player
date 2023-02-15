@@ -5,6 +5,11 @@ import subprocess
 import time
 import gpiod
 import sys
+import pygame
+import math
+import getpass
+if getpass.getuser() != 'root':
+    sys.exit("Must be run as root you silly little goober")
 nums = 0
 
 os.system('./setup.sh')
@@ -27,8 +32,11 @@ midi = True
 insettings = False
 settingstate = 0
 currentMidi = ""
+soundfont = "sf2files/n64.sf2"
 songIndex = 0
 size = 0
+sfIndex = 0
+sfSize = 0
 
 class pymenu :
     screen = None;
@@ -89,7 +97,7 @@ class pymenu :
 
         #placeholder rectangle for song image
 
-        image = pygame.image.load(os.path.join('./images/spamt.png'))
+        image = pygame.image.load(os.path.join('./images/smart.jpg'))
         self.screen.blit(image, (20, 20))
 
 
@@ -147,14 +155,18 @@ class pymenu :
         pygame.display.update()
 
 
+menu = pymenu()
+menu.drawMenu()
+oldvals = [1,1,1,1]
+newvals = [1,1,1,1]
 
 
 def playmumsic():
     global playing
     global songIndex
     global size
+    global soundfont
     mumsic = os.listdir('./midis')
-    soundfont = 'sf2files/n64.sf2'
     size = len(mumsic)
     if shuffle == True:
         currentMidi = mumsic[random.randint(0, size - 1)]
@@ -178,8 +190,14 @@ def stopmumsic():
 while True:
     songIndex
     ev_lines = getlines.event_wait(sec=1)
-    vals = getlines.get_values()
-    
+    oldvals = newvals
+    newvals = getlines.get_values()
+    vals = [1,1,1,1]
+    for i in range(4):
+        vals[i] = not (oldvals[i] ^ newvals[i])
+        if oldvals[i] == 0 and newvals[i] == 1:
+            vals[i] = 1
+
     #setlines.set_values(vals)
     time.sleep(0.1)
 
@@ -194,6 +212,12 @@ while True:
             dispArr[1] = 1
         if vals[0] == 0:
             print("sound")
+            sounds = os.listdir('./sf2files')
+            sfSize = len(sounds)
+            soundfont = 'sf2files/' + sounds[sfIndex]
+            sfIndex = sfIndex + 1
+            sfIndex = sfIndex  % sfSize
+            print("Now playing: " + soundfont)
         if vals[1] == 0:
             print("shuffle/seq")
             shuffle = not shuffle
