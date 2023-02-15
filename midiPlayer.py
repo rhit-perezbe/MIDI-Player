@@ -40,7 +40,7 @@ sfSize = 0
 
 class pymenu :
     screen = None;
-    imagename = "cachemiss.jpg"
+    imagename = "start.jpg"
     title = "tezt"
 
     def __init__(self):
@@ -162,8 +162,8 @@ class pymenu :
 
 
 menu = pymenu()
-menu.updatePicture("smart.jpg")
-menu.updateTitle("smart race")
+menu.updatePicture("start.jpg")
+menu.updateTitle("ECE434 Beagle Screamer")
 menu.drawMenu()
 oldvals = [1,1,1,1]
 newvals = [1,1,1,1]
@@ -174,6 +174,7 @@ def playmumsic():
     global songIndex
     global size
     global soundfont
+    global currentMidi
     mumsic = os.listdir('./midis')
     size = len(mumsic)
     if shuffle == True:
@@ -194,6 +195,15 @@ def stopmumsic():
     os.system('kill $(pidof fluidsynth)')
     time.sleep(2)
     playing = False
+
+def fixscreen(songName, screen):
+    screen.updateTitle(songName)
+    images = os.listdir('./images')
+    if (songName + ".jpg") in images:
+        screen.updatePicture(songName + ".jpg")
+    else:
+        screen.updatePicture("cachemiss.jpg")
+    screen.drawMenu()
 
 while True:
     songIndex
@@ -248,12 +258,16 @@ while True:
     if(vals[0] == 0 and playing == False):
         setlines.set_values([0,1,1,0])
         playmumsic();
+        fixscreen(currentMidi[0:len(currentMidi) - 4], menu)
     if(vals[2] == 0):
         songIndex = songIndex + 1
         songIndex = songIndex % size
         if(playing == True):
             stopmumsic();
             playmumsic();
+            print(currentMidi)
+            fixscreen(currentMidi[0:len(currentMidi) - 4], menu)
+
     if(vals[3] == 0 and playing == False):
         print("entering menu")
         insettings = True
@@ -261,5 +275,4 @@ while True:
         time.sleep(0.5)
 
             
-
 
