@@ -40,6 +40,8 @@ sfSize = 0
 
 class pymenu :
     screen = None;
+    imagename = "cachemiss.jpg"
+    title = "tezt"
 
     def __init__(self):
         os.putenv('SDL_NOMOUSE', '1')
@@ -56,6 +58,10 @@ class pymenu :
 
     def __del__(self):
         "Destructor to make sure pygame shuts down, etc."
+    def updatePicture(self, pictureName):
+        self.imagename = pictureName
+    def updateTitle(self, title):
+        self.title = title
 
     def drawMenu(self):
         xmax = pygame.display.Info().current_w
@@ -97,7 +103,7 @@ class pymenu :
 
         #placeholder rectangle for song image
 
-        image = pygame.image.load(os.path.join('./images/smart.jpg'))
+        image = pygame.image.load(os.path.join('./images/' + self.imagename))
         self.screen.blit(image, (20, 20))
 
 
@@ -110,8 +116,8 @@ class pymenu :
 
         green_box = pygame.Rect(231, 61, 28, 18)
         red_box = pygame.Rect(231, 96, 28, 18)
-        white_box = pygame.Rect(231, 131, 28, 18)
-        orange_box = pygame.Rect(231, 166, 28, 18)
+        orange_box = pygame.Rect(231, 131, 28, 18)
+        white_box = pygame.Rect(231, 166, 28, 18)
 
         pygame.draw.rect(self.screen, black, black_box_1)
         pygame.draw.rect(self.screen, black, black_box_2)
@@ -120,13 +126,13 @@ class pymenu :
 
         pygame.draw.rect(self.screen, green, green_box)
         pygame.draw.rect(self.screen, red, red_box)
-        pygame.draw.rect(self.screen, white, white_box)
         pygame.draw.rect(self.screen, orange, orange_box)
+        pygame.draw.rect(self.screen, white, white_box)
 
 
 
         title = myfont.render(
-            "BIG SHOT", 
+            self.title, 
             False, (0, 0, 0), backgroundC)
         self.screen.blit(title,(50, 2))
 
@@ -156,6 +162,8 @@ class pymenu :
 
 
 menu = pymenu()
+menu.updatePicture("smart.jpg")
+menu.updateTitle("smart race")
 menu.drawMenu()
 oldvals = [1,1,1,1]
 newvals = [1,1,1,1]
