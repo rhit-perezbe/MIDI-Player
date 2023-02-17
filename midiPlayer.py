@@ -38,11 +38,14 @@ size = 0
 sfIndex = 0
 sfSize = 0
 
+wavIndex = 0
+wavSize = 0
+currentWav = ""
 class pymenu :
     screen = None;
     imagename = "start.jpg"
     title = "tezt"
-
+    soundfont = "n64"
     def __init__(self):
         os.putenv('SDL_NOMOUSE', '1')
         pygame.display.init()
@@ -62,6 +65,8 @@ class pymenu :
         self.imagename = pictureName
     def updateTitle(self, title):
         self.title = title
+    def updateSoundfont(self, sf):
+        self.soundfont = sf
 
     def drawMenu(self):
         xmax = pygame.display.Info().current_w
@@ -161,6 +166,8 @@ class pymenu :
         pygame.display.update()
         
     def drawSettings(self):
+        global midi
+        global shuffle
         xmax = pygame.display.Info().current_w
         ymax = pygame.display.Info().current_h
         
@@ -193,20 +200,25 @@ class pymenu :
         orange = (255, 162, 0)
         black = (0, 0, 0)
 
-        black_box_1 = pygame.Rect(50, 40, 30, 20)
+        black_box_1 = pygame.Rect(10, 40, 30, 20)
         black_box_2 = pygame.Rect(200, 40, 30, 20)
-        black_box_3 = pygame.Rect(50, 100, 30, 20)
-        black_box_4 = pygame.Rect(200, 100, 30, 20)
+        black_box_3 = pygame.Rect(10, 140, 30, 20)
+        black_box_4 = pygame.Rect(200, 140, 30, 20)
 
-        # green_box = pygame.Rect(231, 61, 28, 18)
-        # red_box = pygame.Rect(231, 96, 28, 18)
-        # orange_box = pygame.Rect(231, 131, 28, 18)
-        # white_box = pygame.Rect(231, 166, 28, 18)
+        green_box = pygame.Rect(11, 41, 28, 18)
+        red_box = pygame.Rect(201, 41, 28, 18)
+        orange_box = pygame.Rect(11, 141, 28, 18)
+        white_box = pygame.Rect(201, 141, 28, 18)
 
         pygame.draw.rect(self.screen, black, black_box_1)
         pygame.draw.rect(self.screen, black, black_box_2)
         pygame.draw.rect(self.screen, black, black_box_3)
         pygame.draw.rect(self.screen, black, black_box_4)
+        
+        pygame.draw.rect(self.screen, green, green_box)
+        pygame.draw.rect(self.screen, red, red_box)
+        pygame.draw.rect(self.screen, orange, orange_box)
+        pygame.draw.rect(self.screen, white, white_box)
 
         # pygame.draw.rect(self.screen, green, green_box)
         # pygame.draw.rect(self.screen, red, red_box)
@@ -216,27 +228,39 @@ class pymenu :
         title = myfont.render(
             "SETTINGS", 
             False, (0, 0, 0), backgroundC)
-        self.screen.blit(title,(50, 2))
+        self.screen.blit(title,(100, 2))
 
         start = myfont.render(
-            "SOUNDFONT", 
+            self.soundfont, 
             False, (0, 0, 0), backgroundC)
-        self.screen.blit(start,(50, 70))
+        self.screen.blit(start,(50, 40))
+        if shuffle == True:
+            stop = myfont.render(
+                " SHUF", 
+                False, (0, 0, 0), backgroundC)
+            self.screen.blit(stop,(230, 40))
+        else:
+            stop = myfont.render(
+                " SEQ", 
+                False, (0, 0, 0), backgroundC)
+            self.screen.blit(stop,(230, 40))
 
-        stop = myfont.render(
-            "SHUFFLE", 
-            False, (0, 0, 0), backgroundC)
-        self.screen.blit(stop,(230, 70))
+        if midi == True:
+            next = myfont.render(
+                "MIDI Mode", 
+                False, (0, 0, 0), backgroundC)
+            self.screen.blit(next,(50, 140))
+        else:
+            next = myfont.render(
+                "WAV Mode", 
+                False, (0, 0, 0), backgroundC)
+            self.screen.blit(next,(50, 140))
 
-        next = myfont.render(
-            "Next", 
-            False, (0, 0, 0), backgroundC)
-        self.screen.blit(next,(270, 135))
 
         options = myfont.render(
-            "Optns", 
+            " EXIT", 
             False, (0, 0, 0), backgroundC)
-        self.screen.blit(options,(270, 170))
+        self.screen.blit(options,(230, 140))
 
 
 
@@ -278,6 +302,28 @@ def stopmumsic():
     time.sleep(2)
     playing = False
 
+def playwav():
+    global wavSize
+    global wavIndex
+    global shuffle
+    global currentWav
+    global playing
+    mumsic = os.listdir('./wavs')
+    wavSize = len(mumsic)
+    if shuffle == True:
+        currentWav = mumsic[random.randint(0, wavSize - 1)]
+    else:
+        currentWav = mumsic[wavIndex]
+    whole_command = 'aplay '+ 'wavs/' + currentWav + '&'
+    os.system(whole_command)
+    playing = True
+
+def stopwav():
+    global playing
+    os.system('kill $(pidof aplay)')
+    time.sleep(2)
+    playing = False
+
 def fixscreen(songName, screen):
     screen.updateTitle(songName)
     images = os.listdir('./images')
@@ -304,6 +350,11 @@ while True:
     processes = subprocess.check_output("ps", shell = True)
     procString = str(processes, 'utf-8')
     procName = procString.find('fluidsynth')
+
+    process2 = subprocess.check_output("ps", shell = True)
+    procString2 = str(process2, 'utf-8')
+    procName2 = procString2.find('aplay')
+
     if insettings == True:
         dispArr = [1,0,0,1]
         if midi == True:
@@ -315,43 +366,66 @@ while True:
             sounds = os.listdir('./sf2files')
             sfSize = len(sounds)
             soundfont = 'sf2files/' + sounds[sfIndex]
+            sfname = sounds[sfIndex]
+            menu.updateSoundfont(sfname[0:len(sfname) - 4])
+            menu.drawSettings()
             sfIndex = sfIndex + 1
             sfIndex = sfIndex  % sfSize
             print("Now playing: " + soundfont)
         if vals[1] == 0:
             print("shuffle/seq")
             shuffle = not shuffle
+            menu.drawSettings()
         if vals[2] == 0:
             print("Midi/Wav")
             midi = not midi
+            menu.drawSettings()
         if vals[3] == 0:
             print("exit")
             insettings = False
+            fixscreen(currentMidi[0:len(currentMidi) - 4], menu)
         setlines.set_values(dispArr)
         continue
 
 
-    if(procName == -1):
+    if(procName == -1 and procName2 == -1):
         playing = False
         setlines.set_values([1,0,1,1])
     if(vals[1] == 0 and playing == True):
-        stopmumsic();
+        if midi == True:
+            stopmumsic();
+        else:
+            stopwav()
         setlines.set_values([1,0,1,1])
+
     if(vals[0] == 0 and playing == False):
         setlines.set_values([0,1,1,0])
-        playmumsic();
-        fixscreen(currentMidi[0:len(currentMidi) - 4], menu)
-    if(vals[2] == 0):
-        songIndex = songIndex + 1
-        songIndex = songIndex % size
-        if(playing == True):
-            stopmumsic();
-            playmumsic();
-            print(currentMidi)
+        if midi == True:
+            playmumsic()
             fixscreen(currentMidi[0:len(currentMidi) - 4], menu)
+        else:
+            playwav()
+            fixscreen(currentWav[0:len(currentWav) - 4], menu)
+
+    if(vals[2] == 0):
+        if midi == True:
+            songIndex = songIndex + 1
+            songIndex = songIndex % size
+            if(playing == True):
+                stopmumsic();
+                playmumsic();
+                fixscreen(currentMidi[0:len(currentMidi) - 4], menu)
+        else:
+            wavIndex = wavIndex + 1
+            wavIndex = wavIndex % wavSize
+            if(playing == True):
+                stopwav();
+                playwav();
+                fixscreen(currentWav[0:len(currentWav) - 4], menu)
 
     if(vals[3] == 0 and playing == False):
         print("entering menu")
+        menu.drawSettings()
         insettings = True
         settingstate = 0
         time.sleep(0.5)
