@@ -160,7 +160,7 @@ class pymenu :
 
         pygame.display.update()
         
-def drawSettings(self):
+    def drawSettings(self):
         xmax = pygame.display.Info().current_w
         ymax = pygame.display.Info().current_h
         
