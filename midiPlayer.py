@@ -159,6 +159,88 @@ class pymenu :
 
 
         pygame.display.update()
+        
+def drawSettings(self):
+        xmax = pygame.display.Info().current_w
+        ymax = pygame.display.Info().current_h
+        
+        print("xmay, ymax: ", xmax, "x", ymax)
+        
+        # https://stackoverflow.com/questions/20842801/how-to-display-text-in-pygame
+        myfont = pygame.font.SysFont('Impact', 30)
+
+        xcent = int(xmax/2)
+        ycent = int(ymax/2)
+        print("xcent, ycent: ", xcent, "x", ycent)
+        
+        # minScale = 0.85     # Size of minute hand relative to second
+        # hourScale = 0.5
+        # width = 2           # Width of hands
+        
+        # rad = 100   # Radius
+        # len = 15    # Length of ticks
+        
+        backgroundC = (173,216,230)
+        faceC = (0, 0, 255)
+
+        self.screen.fill(backgroundC)
+
+        
+        
+        green = (0, 255, 0)
+        red = (255, 0, 0)
+        white = (255, 255, 255)
+        orange = (255, 162, 0)
+        black = (0, 0, 0)
+
+        black_box_1 = pygame.Rect(50, 40, 30, 20)
+        black_box_2 = pygame.Rect(200, 40, 30, 20)
+        black_box_3 = pygame.Rect(50, 100, 30, 20)
+        black_box_4 = pygame.Rect(200, 100, 30, 20)
+
+        # green_box = pygame.Rect(231, 61, 28, 18)
+        # red_box = pygame.Rect(231, 96, 28, 18)
+        # orange_box = pygame.Rect(231, 131, 28, 18)
+        # white_box = pygame.Rect(231, 166, 28, 18)
+
+        pygame.draw.rect(self.screen, black, black_box_1)
+        pygame.draw.rect(self.screen, black, black_box_2)
+        pygame.draw.rect(self.screen, black, black_box_3)
+        pygame.draw.rect(self.screen, black, black_box_4)
+
+        # pygame.draw.rect(self.screen, green, green_box)
+        # pygame.draw.rect(self.screen, red, red_box)
+        # pygame.draw.rect(self.screen, orange, orange_box)
+        # pygame.draw.rect(self.screen, white, white_box)
+
+        title = myfont.render(
+            "SETTINGS", 
+            False, (0, 0, 0), backgroundC)
+        self.screen.blit(title,(50, 2))
+
+        start = myfont.render(
+            "SOUNDFONT", 
+            False, (0, 0, 0), backgroundC)
+        self.screen.blit(start,(50, 70))
+
+        stop = myfont.render(
+            "SHUFFLE", 
+            False, (0, 0, 0), backgroundC)
+        self.screen.blit(stop,(230, 70))
+
+        next = myfont.render(
+            "Next", 
+            False, (0, 0, 0), backgroundC)
+        self.screen.blit(next,(270, 135))
+
+        options = myfont.render(
+            "Optns", 
+            False, (0, 0, 0), backgroundC)
+        self.screen.blit(options,(270, 170))
+
+
+
+        pygame.display.update()
 
 
 menu = pymenu()
