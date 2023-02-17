@@ -15,7 +15,7 @@ Next, move ```asoundrc``` to your home directory: <br />
 Finally, reboot your bone. 
 This should be all the setup you need to use our program.
 ## Hardware
-We are using a BeagleBone Black with a 32GB SD card. Keep this in mind when cloning the repo, since we included many large sound files<br />
+We are using a BeagleBone Black with a 32GB SD card. Keep this in mind when cloning the repo, since we included many large sound files.<br />
 For the sound, this project used the Sabrent USB audio dongle ([Found Here!](https://www.amazon.com/dp/B002R33VWW?ref=nb_sb_ss_w_as-reorder-t1_ypp_rep_k0_1_6&amp=&crid=2I6QTTIB3SO00&amp=&sprefix=sabren))
 Other audio dongles may be used, but are unknown if they work. <br />
 Screen - 2.4" SPI TFT Module ([Found Here!](https://www.amazon.com/HiLetgo-Display-ILI9341-Touch-240x320/dp/B07WNLNRDN)) <br />
