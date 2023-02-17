@@ -2,10 +2,10 @@
 ECE434 Final Project - Gaven Williams, Brendan Perez
 ## Setup
 ### Required software
-This project uses two programs to work: Fluidsynth and Alsa <br /><br />
-To install Fluidsynth run the following command: <br /> ```sudo apt-get install fluidsynth``` <br /><br />
-To install Alsa, use the following command: <br />
-```sudo apt-get install libasound2 alsa-utils alsa-oss``` <br /><br />
+This project uses a few programs to work: Fluidsynth, Alsa, and Pygame <br /><br />
+
+Run ```install.sh``` as root to install these. <br /><br />
+
 Next, do ```sudo nano /boot/uEnv.txt``` to enable the LCD device tree. Add the line ```uboot_overlay_addr4=/lib/firmware/BB-LCD-ADAFRUIT-24-SPI1-00A0.dtbo```, and save and close the file. <br /><br />
 
 Next, move ```asoundrc``` to your home directory: <br />
