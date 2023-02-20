@@ -19,6 +19,7 @@ We are using a BeagleBone Black with a 32GB SD card. Keep this in mind when clon
 For the sound, this project used the Sabrent USB audio dongle ([Found Here!](https://www.amazon.com/dp/B002R33VWW?ref=nb_sb_ss_w_as-reorder-t1_ypp_rep_k0_1_6&amp=&crid=2I6QTTIB3SO00&amp=&sprefix=sabren))
 Other audio dongles may be used, but are unknown if they work. <br />
 Screen - 2.4" SPI TFT Module ([Found Here!](https://www.amazon.com/HiLetgo-Display-ILI9341-Touch-240x320/dp/B07WNLNRDN)) <br />
-Illuminated Push Buttons ([Found Here!](https://www.amazon.com/Baomain-Button-Switch-Latching-Rectangular/dp/B01N1RGTPH/ref=sr_1_24?keywords=illuminated+push+buttons&qid=1675718947&sr=8-24))
+Illuminated Push Buttons ([Found Here!](https://www.amazon.com/Baomain-Button-Switch-Latching-Rectangular/dp/B01N1RGTPH/ref=sr_1_24?keywords=illuminated+push+buttons&qid=1675718947&sr=8-24))<br />
+Any speaker that uses a 3.5mm headphone jack
 
 ![](lcdspi1.png)
