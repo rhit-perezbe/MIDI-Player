@@ -5,7 +5,8 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # From: https://www.pygame.org/wiki/GettingStarted
-
+apt-get install fluidsynth
+apt-get install libasound2 alsa-utils alsa-oss
 apt install python3-pygame python3-tk libopenjp2-7 # 
 pip3 install requests  pillow      # 6m22
 
